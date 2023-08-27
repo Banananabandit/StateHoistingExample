@@ -34,22 +34,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Recipe() {
     val viewModel: RecipeViewModel = viewModel()
-    val state: MutableState<List<Ingredient>> = remember {
-        mutableStateOf(viewModel.getIngredients())
-    }
     LazyColumn(
         contentPadding = PaddingValues(
             vertical = 8.dp,
             horizontal = 8.dp
         )
     ) {
-        items(state.value) { ingredient ->
+        items(viewModel.state.value) { ingredient ->
             IngredientItem(ingredient.name, ingredient.hasIngredient) { newSelection ->
-                val ingredients = state.value.toMutableList()
-                val itemIndex = ingredients.indexOfFirst { it.id == ingredient.id}
-                val item = ingredients[itemIndex]
-                ingredients[itemIndex] = item.copy(hasIngredient = newSelection)
-                state.value = ingredients
+                viewModel.toggleIngredients(ingredient, newSelection)
             }
         }
     }
