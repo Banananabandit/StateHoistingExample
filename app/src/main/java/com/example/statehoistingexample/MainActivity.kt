@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun Recipe() {
     val viewModel: RecipeViewModel = viewModel()
@@ -49,6 +50,13 @@ fun Recipe() {
 }
 
 //
+@Composable
+fun IngredientCheckbox() {
+    var state = remember { mutableStateOf(false) }
+    Checkbox(
+        checked = state.value,
+        onCheckedChange = {state.value = it})
+}
 @Composable
 fun IngredientItem(
     ingredient: String,
