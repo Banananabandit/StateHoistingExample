@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Recipe() {
     val viewModel: RecipeViewModel = viewModel()
+    viewModel.getIngredients()
     LazyColumn(
         contentPadding = PaddingValues(
             vertical = 8.dp,

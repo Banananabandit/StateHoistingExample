@@ -1,7 +1,11 @@
 package com.example.statehoistingexample
 
+import com.google.gson.annotations.SerializedName
+
 data class Ingredient(
+    @SerializedName("r_i_id")
     val id: Int,
+    @SerializedName("r_i_name")
     val name: String,
     var hasIngredient: Boolean
 )
