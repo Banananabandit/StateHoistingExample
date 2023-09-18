@@ -11,9 +11,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RecipeViewModel: ViewModel() {
     private var restInterface: RecipesApiService
     val state = mutableStateOf(emptyList<Ingredient>())
+    private lateinit var ingredientsCall: Call<List<Ingredient>>
 
-    fun getIngredients() {
-        restInterface.getRecipes().enqueue(
+    private fun getIngredients() {
+        ingredientsCall = restInterface.getRecipes()
+            ingredientsCall.enqueue(
             object : Callback<List<Ingredient>> {
                 override fun onResponse(
                     call: Call<List<Ingredient>>,
@@ -29,6 +31,11 @@ class RecipeViewModel: ViewModel() {
                 }
             }
         )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        ingredientsCall.cancel()
     }
 
     fun toggleIngredients(ingredient: Ingredient, newSelection: Boolean) {
@@ -47,5 +54,7 @@ class RecipeViewModel: ViewModel() {
             .baseUrl("https://recipesapp-7cae7-default-rtdb.firebaseio.com/") //TODO: There might be a problem with my link. Just double check
             .build()
         restInterface = retrofit.create(RecipesApiService::class.java)
+
+        getIngredients()
     }
 }
